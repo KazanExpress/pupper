@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const cache = require('./cache');
 
 const compression = require('compression');
-const pino = require('express-pino-logger')();
+// const pino = require('express-pino-logger')();
 
 const health = require('./routes/health');
 const renderer = require('./routes/renderer');
@@ -14,9 +14,11 @@ const app = express();
 
 app.use(helmet());
 app.use(compression());
-app.use(pino);
+// app.use(pino);
 app.disable('x-powered-by');
 app.set('port', process.env.PORT || 3000);
+
+// TODO: simplify route
 
 app.get('/_health', health);
 
@@ -92,10 +94,12 @@ app.listen(port, () => console.log(`Prerender Service listening on port ${port}!
 // 	});
 
 // Error page.
-// app.use((err, req, res) => {
-// 	console.error(err)
-// 	res.status(500).send('Oops, An expected error seems to have occurred.')
-// })
+app.use((err, req, res) => {
+	console.error(err)
+	res.writeHead(200, {
+		'Retry-After': 300,
+	}).end('Oops, An expected error seems to have occurred.')
+})
 
 // Terminate process
 // process.on('SIGINT', () => {
