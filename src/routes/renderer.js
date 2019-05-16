@@ -1,7 +1,5 @@
 'use strict';
 
-const { URL } = require('url');
-const contentDisposition = require('content-disposition');
 const createRenderer = require('../core/Renderer');
 
 module.exports = async (req, res, next) => {
@@ -25,7 +23,7 @@ module.exports = async (req, res, next) => {
 	try {
 
 		const renderer = await createRenderer();
-		
+
 		const html = await renderer.render(url, options);
 		res.status(200).send(html)
 		renderer.close();

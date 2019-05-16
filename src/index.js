@@ -9,6 +9,7 @@ const health = require('./routes/health');
 const renderer = require('./routes/renderer');
 const metaCacheMiddleware = require('./middlewares/metaCacheMiddleware');
 const queueMiddleware = require('./middlewares/queueMiddleware');
+const urlParserMiddleware = require('./middlewares/urlParserMiddleware');
 
 const app = express();
 
@@ -22,7 +23,7 @@ app.set('port', process.env.PORT || 3000);
 
 app.get('/_health', health);
 
-app.get('/render', [metaCacheMiddleware, queueMiddleware], renderer);
+app.get('/*', [urlParserMiddleware, metaCacheMiddleware, queueMiddleware], renderer);
 
 app.delete('/cache', (req, res) => {
 
@@ -73,10 +74,6 @@ app.post('/cache/flush', (req, res) => {
 	return res.status(200).jsonp(cache.getStats());
 });
 
-app.get('/', (req, res) => {
-	res.send('Prerender Service');
-});
-
 
 const port = app.get('port');
 app.listen(port, () => console.log(`Prerender Service listening on port ${port}!`));
@@ -94,7 +91,7 @@ app.listen(port, () => console.log(`Prerender Service listening on port ${port}!
 // 	});
 
 // Error page.
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
 	console.error(err)
 	res.writeHead(200, {
 		'Retry-After': 300,
