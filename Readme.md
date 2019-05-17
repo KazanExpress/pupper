@@ -1,6 +1,8 @@
-# Pupper
+# Pupper 
 
-**Pupper** is a simplified fork of [jclvicerra/puppeteer-prerender](https://github.com/jclvicerra/puppeteer-prerender) web page prerenderer service based on Puppeteer(Chrome headless node API). Which is **almost** ready to use in production (actually we already using it :) ).
+[![](https://images.microbadger.com/badges/version/kexpress/pupper.svg)](https://microbadger.com/images/kexpress/pupper "Get your own version badge on microbadger.com")
+
+**Pupper** is a simplified fork of [jclvicerra/puppeteer-prerender](https://github.com/jclvicerra/puppeteer-prerender) web page prerenderer service based on Puppeteer(Chrome headless node API). Which is **almost** ready to use in production (actually we are already using it :) ).
 
 Useful server side rendering through proxy. Outputs only HTML (if you need PDF on PNG consider forking this project or use the [original](https://github.com/jclvicerra/puppeteer-prerender)).
 
@@ -27,13 +29,13 @@ npm install
 ### Build Docker Image
 
 ```bash
-docker build -t pupper .
+docker build -t kexpress/pupper .
 ```
 
 ### Start Docker Image
 
 ```bash
-docker run -i --rm --cap-add=SYS_ADMIN --name puppeteer-chrome -p 8080:3000 pupper
+docker run -i --rm --cap-add=SYS_ADMIN --name puppeteer-chrome -p 8080:3000 kexpress/pupper
 ```
 
 ## Testing 
