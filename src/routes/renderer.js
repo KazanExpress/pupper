@@ -26,12 +26,15 @@ module.exports = async (req, res, next) => {
 
 		const html = await renderer.render(url, options);
 		res.status(200).send(html)
+		console.log(`🔥 rendered ${url}`)
 		renderer.close();
 	} catch (e) {
 
+		console.log(`☠️ failed to render ${url}!`)
 		if (renderer){
 			renderer.close();
 		}
+
 		next(e)
 	}
 };

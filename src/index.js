@@ -30,7 +30,7 @@ app.listen(port, () => console.log(`Prerender Service listening on port ${port}!
 
 // Error page.
 app.use((err, req, res, next) => {
-	console.error(err);
+	console.log(`error midleware handled error: ${err}`)
 	res.writeHead(503, {
 		'Retry-After': 300,
 	})
