@@ -1,4 +1,3 @@
-// const NodeCache = require('node-cache');
 const config = require('config');
 const { parse } = require('url');
 
@@ -20,9 +19,5 @@ var cache = lru(client, {
 	increment: true
 });
 
-
-// const myCache = new NodeCache({
-// 	stdTTL: config.get('ttl'),
-// });
 
 module.exports = cache;

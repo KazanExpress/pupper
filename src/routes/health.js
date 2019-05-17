@@ -7,7 +7,6 @@ module.exports = async (req, res, next) => {
 
 	try {
 		res.status(200).jsonp({
-			// cache: cache.getStats(),
 			cacheTTL: config.get('ttl'),
 			maxConcurrentSessions: config.get('maxConcurrentSessions'),
 			queueCount: queueMiddleware.queue.getLength()
