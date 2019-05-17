@@ -18,7 +18,7 @@ module.exports = async (req, res, next) => {
 		url = `http://${url}`
 	}
 
-	console.info(`Rendering url ${url} for type ${type} with options ${JSON.stringify(options)}`);
+	console.info(`Rendering url ${url}`);
 
 	try {
 
@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
 		renderer.close();
 	} catch (e) {
 
-		if(renderer){
+		if (renderer){
 			renderer.close();
 		}
 		next(e)

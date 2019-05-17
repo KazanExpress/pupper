@@ -18,6 +18,8 @@
     "express-queue": "^0.0.12",
     "helmet": "^3.16.0",
     "node-cache": "^4.2.0",
-    "puppeteer": "^1.14.0"
+    "puppeteer": "^1.14.0",
+    "redis": "^2.8.0",
+    "redis-lru": "^0.6.0"
   }
 }

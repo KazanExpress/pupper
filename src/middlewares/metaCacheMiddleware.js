@@ -1,7 +1,7 @@
 
-const nodeCache = require('../cache');
+const cache = require('../cache');
 
-const metaCacheMiddleware = (req, res, next) => {
+const metaCacheMiddleware = async (req, res, next) => {
 
 	const query = req.query;
 
@@ -13,15 +13,16 @@ const metaCacheMiddleware = (req, res, next) => {
 	}
 
 	const key = url;
-	const cacheContent = nodeCache.get(key);
-	if (cacheContent) {
+	if (await cache.has(key)) {
+		console.log(`👻 cache hit for ${url}`)
+		const cacheContent = await cache.get(key);
 		res.send(cacheContent);
 		return;
 	}
 	res.sendResponse = res.send;
-	res.send = (body) => {
-		nodeCache.set(key, body);
-		res.sendResponse(body);
+	res.send = async (body) => {
+		cache.set(key, body)
+			.then(() => res.sendResponse(body));
 	};
 	next();
 };

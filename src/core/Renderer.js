@@ -47,16 +47,17 @@ class Renderer {
 				
 				const seconds = (+new Date() - nowTime) / 1000;
 				const shortURL = truncate(url, 70);
+				const otherResources = /^(manifest|other)$/i.test(resourceType);
 
 				if (seconds > REQUESTS_TIMEOUT || actionDone) {
-					console.log(`❌⏳ ${method} ${shortURL}`);
+					// console.log(`❌⏳ ${method} ${shortURL}`);
 					request.abort();
+				} else if (blockedRegExp.test(url) || otherResources) {
+					// console.log(`❌ ${method} ${shortURL}`);
+					request.abort();
+				}  else {
+					request.continue();
 				}
-
-				const otherResources = /^(manifest|other)$/i.test(resourceType);
-				if (blockedRegExp.test(url) || otherResources) {
-					request.abort();
-				} 
 			});
 			
 			// TODO: maybe add timeout?

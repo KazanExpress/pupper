@@ -4,11 +4,10 @@ const queueMiddleware = require('./../middlewares/queueMiddleware');
 
 module.exports = async (req, res, next) => {
 
-	console.log('Checking health status');
 
 	try {
 		res.status(200).jsonp({
-			cache: cache.getStats(),
+			// cache: cache.getStats(),
 			cacheTTL: config.get('ttl'),
 			maxConcurrentSessions: config.get('maxConcurrentSessions'),
 			queueCount: queueMiddleware.queue.getLength()
