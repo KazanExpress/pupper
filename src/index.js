@@ -92,10 +92,11 @@ app.listen(port, () => console.log(`Prerender Service listening on port ${port}!
 
 // Error page.
 app.use((err, req, res, next) => {
-	console.error(err)
-	res.writeHead(200, {
+	console.error(err);
+	res.writeHead(503, {
 		'Retry-After': 300,
-	}).end('Oops, An expected error seems to have occurred.')
+	})
+	res.end('Oops, An expected error seems to have occurred.')
 })
 
 // Terminate process
