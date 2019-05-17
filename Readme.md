@@ -20,19 +20,29 @@ Useful server side rendering through proxy. Outputs only HTML (if you need PDF o
 
 ## Getting Started
 
-### Install dependencies
+### Without docker
+
+#### Install dependencies
 
 ```bash
 npm install
 ```
 
-### Build Docker Image
+#### Run
+
+```bash
+node src/index.js
+```
+
+### With docker
+
+#### Build Docker Image
 
 ```bash
 docker build -t kexpress/pupper .
 ```
 
-### Start Docker Image
+#### Start Docker Image
 
 ```bash
 docker run -i --rm --cap-add=SYS_ADMIN --name puppeteer-chrome -p 8080:3000 kexpress/pupper
