@@ -5,6 +5,9 @@ const puppeteer = require('puppeteer');
 const blocked = require('../../blocked.json');
 const blockedRegExp = new RegExp('(' + blocked.join('|') + ')', 'i');
 
+const truncate = (str, len) => str.length > len ? str.slice(0, len) + '…' : str;
+const REQUESTS_TIMEOUT = 30;
+
 class Renderer {
 	constructor(browser) {
 		this.browser = browser
@@ -14,7 +17,7 @@ class Renderer {
 		const { timeout, waitUntil } = options;
 		const page = await this.browser.newPage();
 		await page.goto(url, {
-			timeout: Number(timeout) || 30 * 1000,
+			timeout: Number(timeout) || 45 * 1000,
 			waitUntil: waitUntil || 'networkidle2',
 		})
 		return page;
@@ -28,14 +31,26 @@ class Renderer {
 
 			await page.setRequestInterception(true);
 
+			const nowTime = +new Date();
+			let actionDone = false;
+
 			page.on('request', (request) => {
 				const url = request.url();
+				const method = request.method();
 				const resourceType = request.resourceType();
 
 				// Skip data URIs
 				if (/^data:/i.test(url)) {
 					request.continue();
 					return;
+				}
+				
+				const seconds = (+new Date() - nowTime) / 1000;
+				const shortURL = truncate(url, 70);
+
+				if (seconds > REQUESTS_TIMEOUT || actionDone) {
+					console.log(`❌⏳ ${method} ${shortURL}`);
+					request.abort();
 				}
 
 				const otherResources = /^(manifest|other)$/i.test(resourceType);
@@ -44,6 +59,7 @@ class Renderer {
 				} 
 			});
 			
+			// TODO: maybe add timeout?
 			// fix urls to load css and other shit
 			let cntnt = await page.evaluate(() => {
 				let content = '';
@@ -88,6 +104,7 @@ class Renderer {
 	
 				return content;
 			});
+			actionDone = true;
 			return cntnt;
 
 		} finally {
