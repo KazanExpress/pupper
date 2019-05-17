@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const config = require('config');
 const cache = require('./cache');
 
 const compression = require('compression');
@@ -31,6 +32,7 @@ app.listen(port, () => console.log(`Prerender Service listening on port ${port}!
 // Error page.
 app.use((err, req, res, next) => {
 	console.log(`error midleware handled error: ${err}`)
+	console.log(`qLen: ${queueMiddleware.queue.getLength()} ; maxCS: ${config.get('maxConcurrentSessions')}`)
 	res.writeHead(503, {
 		'Retry-After': 300,
 	})
