@@ -16,7 +16,7 @@ Useful server side rendering through proxy. Outputs only HTML (if you need PDF o
 
 - Has a [blacklist](https://github.com/KazanExpress/pupper/blob/master/blocked.json) of domains to ignore while rendering pages (e.g. metrics, stats, trackers, etc)
 
-- 
+- and other ...
 
 ## Getting Started
 
