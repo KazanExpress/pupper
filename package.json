@@ -1,5 +1,5 @@
 {
-  "name": "puppeteer-prerender",
+  "name": "pupper",
   "version": "1.0.0",
   "description": "Express app for web rendering",
   "main": "src/index.js",
