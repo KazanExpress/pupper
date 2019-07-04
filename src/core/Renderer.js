@@ -16,6 +16,7 @@ class Renderer {
 	async createPage(url, options = {}) {
 		const { timeout, waitUntil } = options;
 		const page = await this.browser.newPage();
+		await page.setUserAgent(await this.browser.userAgent() + ' Pupper');
 		await page.goto(url, {
 			timeout: Number(timeout) || 45 * 1000,
 			waitUntil: waitUntil || 'networkidle2',
