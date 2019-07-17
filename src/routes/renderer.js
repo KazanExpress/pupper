@@ -25,7 +25,17 @@ module.exports = async (req, res, next) => {
 		const renderer = await createRenderer();
 
 		const html = await renderer.render(url, options);
-		res.status(200).send(html)
+
+		let statusMatch = /<meta[^<>]*(?:name=['"]prerender-status-code['"][^<>]*content=['"]([0-9]{3})['"]|content=['"]([0-9]{3})['"][^<>]*name=['"]prerender-status-code['"])[^<>]*>/i,
+			head = html.toString().split('</head>', 1).pop(),
+			statusCode = 200,
+			match;
+
+		if (match = statusMatch.exec(head)) {
+			statusCode = match[1] || match[2];
+		}
+
+		res.status(statusCode).send(html)
 		console.log(`🔥 rendered ${url}`)
 		renderer.close();
 	} catch (e) {

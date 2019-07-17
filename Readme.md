@@ -16,6 +16,8 @@ Useful server side rendering through proxy. Outputs only HTML (if you need PDF o
 
 - Has a [blacklist](https://github.com/KazanExpress/pupper/blob/master/blocked.json) of domains to ignore while rendering pages (e.g. metrics, stats, trackers, etc)
 
+- Correct status codes for crawlers (using `<meta name="prerender-status-code" content="404">`)
+
 - and other ...
 
 ## Getting Started

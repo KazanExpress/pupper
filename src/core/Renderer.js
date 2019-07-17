@@ -116,52 +116,6 @@ class Renderer {
 		}
 	}
 
-	async pdf(url, options = {}) {
-		let page = null;
-		try {
-			const { timeout, waitUntil, ...extraOptions } = options;
-			page = await this.createPage(url, { timeout, waitUntil });
-
-			const { scale, displayHeaderFooter, printBackground, landscape } = extraOptions;
-			return await page.pdf({
-				...extraOptions,
-				scale: Number(scale),
-				displayHeaderFooter: displayHeaderFooter === 'true',
-				printBackground: printBackground === 'true',
-				landscape: landscape === 'true',
-			})
-		} finally {
-			if (page) {
-				await page.close()
-			}
-		}
-	}
-
-	async screenshot(url, options = {}) {
-		let page = null;
-		try {
-			const { timeout, waitUntil, ...extraOptions } = options;
-			page = await this.createPage(url, { timeout, waitUntil });
-			page.setViewport({
-				width: Number(extraOptions.width || 800),
-				height: Number(extraOptions.height || 600),
-			})
-
-			const { fullPage, omitBackground, imageType, quality } = extraOptions;
-			return await page.screenshot({
-				...extraOptions,
-				type: imageType || 'png',
-				quality: Number(quality) || (imageType === undefined || imageType === 'png' ? 0 : 100),
-				fullPage: fullPage === 'true',
-				omitBackground: omitBackground === 'true',
-			})
-		} finally {
-			if (page) {
-				await page.close()
-			}
-		}
-	}
-
 	async close() {
 		await this.browser.close()
 	}

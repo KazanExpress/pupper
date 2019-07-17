@@ -1,6 +1,10 @@
 
 const cache = require('../cache');
 
+function codeKey(key) {
+	return 'code:' + key;
+}
+
 const metaCacheMiddleware = async (req, res, next) => {
 
 	const query = req.query;
@@ -16,13 +20,20 @@ const metaCacheMiddleware = async (req, res, next) => {
 	if (await cache.has(key)) {
 		console.log(`👻 cache hit for ${url}`)
 		const cacheContent = await cache.get(key);
-		res.send(cacheContent);
+		let code = 200;
+		if (await cache.has(codeKey(key))) {
+			code = await cache.get(codeKey(key));
+		}
+		res.status(code).send(cacheContent);
 		return;
 	}
 	res.sendResponse = res.send;
 	res.send = async (body) => {
 		cache.set(key, body)
-			.then(() => res.sendResponse(body));
+			.then(async () => {
+				cache.set(codeKey(key), res.statusCode);
+				res.sendResponse(body);
+			});
 	};
 	next();
 };
