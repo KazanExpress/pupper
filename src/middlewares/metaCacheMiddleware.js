@@ -1,3 +1,4 @@
+// @ts-check
 
 const cache = require('../cache');
 
@@ -26,6 +27,8 @@ const metaCacheMiddleware = async (req, res, next) => {
 		}
 		res.status(code).send(cacheContent);
 		return;
+	} else {
+		console.log(`🚫 no key ${url} in cache`);
 	}
 	res.sendResponse = res.send;
 	res.send = async (body) => {

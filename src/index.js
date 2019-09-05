@@ -1,3 +1,5 @@
+require('./logger');
+
 const express = require('express');
 const helmet = require('helmet');
 const config = require('config');
