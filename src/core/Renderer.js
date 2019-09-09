@@ -12,7 +12,7 @@ class Renderer {
 	constructor(browser) {
 		this.browser = browser
 	}
-
+	 
 	async createPage(url, options = {}) {
 		const { timeout, waitUntil } = options;
 		const page = await this.browser.newPage();
@@ -45,7 +45,7 @@ class Renderer {
 					request.continue();
 					return;
 				}
-				
+
 				const seconds = (+new Date() - nowTime) / 1000;
 				const shortURL = truncate(url, 70);
 				const otherResources = /^(manifest|other)$/i.test(resourceType);

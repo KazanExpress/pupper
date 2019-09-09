@@ -32,11 +32,12 @@ const metaCacheMiddleware = async (req, res, next) => {
 	}
 	res.sendResponse = res.send;
 	res.send = async (body) => {
+		console.log('entering modified send');
 		cache.set(key, body)
-			.then(async () => {
-				cache.set(codeKey(key), res.statusCode);
-				res.sendResponse(body);
-			});
+			.then(() => console.log(`cache set for key = ${key}`))
+			.then(async() => await cache.set(codeKey(key), res.statusCode))
+			.then(() => console.log(`cache set response code for key = ${key}`))
+			.then(() => res.sendResponse(body));
 	};
 	next();
 };

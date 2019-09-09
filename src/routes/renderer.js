@@ -4,10 +4,6 @@ const createRenderer = require('../core/Renderer');
 
 module.exports = async (req, res, next) => {
 
-	const app = req.app;
-
-	const renderer = app.get('renderer');
-
 	let { url, type, ...options } = req.query;
 
 	if (!url) {
@@ -18,11 +14,12 @@ module.exports = async (req, res, next) => {
 		url = `http://${url}`
 	}
 
-	console.info(`Rendering url ${url}`);
+	console.log(`Rendering url ${url}`);
 
+	var renderer = null;
 	try {
 
-		const renderer = await createRenderer();
+		renderer = await createRenderer();
 
 		const html = await renderer.render(url, options);
 
@@ -36,11 +33,11 @@ module.exports = async (req, res, next) => {
 		}
 
 		res.status(statusCode).send(html)
-		console.log(`🔥 rendered ${url}`)
+		console.log(`🔥 rendered ${statusCode} ${url}`)
 		renderer.close();
 	} catch (e) {
 
-		console.log(`☠️ failed to render ${url}!`)
+		console.log(`☠️ failed to render ${url}!: ${e}`)
 		if (renderer){
 			renderer.close();
 		}
