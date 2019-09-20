@@ -1,5 +1,5 @@
 const config = require('config');
-const cache = require('./../cache');
+
 const queueMiddleware = require('./../middlewares/queueMiddleware');
 
 module.exports = async (req, res, next) => {

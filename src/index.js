@@ -9,7 +9,7 @@ const compression = require('compression');
 
 const health = require('./routes/health');
 const renderer = require('./routes/renderer');
-const metaCacheMiddleware = require('./middlewares/metaCacheMiddleware');
+// // const metaCacheMiddleware = require('./middlewares/metaCacheMiddleware');
 const queueMiddleware = require('./middlewares/queueMiddleware');
 const urlParserMiddleware = require('./middlewares/urlParserMiddleware');
 
@@ -24,7 +24,7 @@ app.set('port', process.env.PORT || 3000);
 
 app.get('/_health', health);
 
-app.get('/*', [urlParserMiddleware, metaCacheMiddleware, queueMiddleware], renderer);
+app.get('/*', [urlParserMiddleware, queueMiddleware], renderer);
 
 const port = app.get('port');
 app.listen(port, () => console.log(`Prerender Service listening on port ${port}!`));
